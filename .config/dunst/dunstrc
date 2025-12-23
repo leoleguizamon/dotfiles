@@ -1,6 +1,6 @@
 [global]
-	font = Ubuntu 10
-	frame_width = 2
+	font = mono 12
+	frame_width = 1
 	separator_color = frame
 	padding = 10
 	horizontal_padding = 15
@@ -30,13 +30,13 @@
 [urgency_low]
 	background = "#1b0329cc"
 	foreground = "#c8c6d7"
-	frame_color = "#1b0329"
+	frame_color = "#c8c6d7"
 	timeout = 3
 
 [urgency_normal]
 	background = "#1b0329cc"
 	foreground = "#c8c6d7"
-	frame_color = "#1b0329"
+	frame_color = "#c8c6d7"
 	timeout = 5
 
 [urgency_critical]
