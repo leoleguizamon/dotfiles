@@ -1,17 +1,23 @@
 * {
-	font-family: Ubuntu;
-	font-size: 11pt;
+  all: unset;
+	font-family: ;
+	font-size: 12pt;
 	border: none;
 }
 
-#window {
-	background-color: rgba(27, 3, 41, 0.80);
-	padding: 10px;
+#outer-box {
+  padding-top: 10px;
+  background-color: rgba(27, 3, 41, 0.80);
 }
 
 #input {
-	margin: 0px 10px;	
+  padding: 10px;
+	margin: 0px 10px;
 	background-color: rgb(14, 3, 20);
+}
+
+#input image {
+	margin-right: 10px;
 }
 
 #scroll {
