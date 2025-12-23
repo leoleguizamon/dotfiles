@@ -35,7 +35,7 @@ text-wrong-color=#00000000
 
 ##### Imagen
 # Quitar comentario si se ve negro o no es transparente el fondo.
-#image= ~/.config/swaylock/bg.png
+image= ~/.config/swaylock/bg.png
 color=#000000AA
 
 # key press highlight segments
