@@ -1,7 +1,7 @@
 @define-color background rgba(27, 3, 41, 0.80);
 @define-color foreground #c0caf5;
 @define-color black #000000;
-@define-color red #4e0110;
+@define-color red #ff0000;
 @define-color dark-green #0e0314;
 @define-color green #39ff14;
 @define-color yellow #e3e36a;
@@ -16,8 +16,8 @@
     /* Base styling for all modules */
     border: none;
     border-radius: 0;
-    font-family: "Ubuntu";
-    font-size: 11px;
+    font-family: "";
+    font-size: 14px;
     min-height: 0;
     color: @white
 }
@@ -27,21 +27,54 @@ window#waybar {
 }
 
 /* Common module styling with border-bottom */
-#mode, #mpd, #custom-weather, #custom-playerctl, 
-#clock, #network, #pulseaudio, #backlight, 
-#disk, #custom-uptime, #custom-updates, #custom-quote,
-#idle_inhibitor, #tray,#battery,#memory, #temperature, #cpu {
+#mode,
+#mpd,
+#custom-weather,
+#custom-playerctl,
+#clock,
+#network,
+#pulseaudio,
+#backlight,
+#disk,
+#custom-uptime,
+#custom-updates,
+#custom-quote,
+#idle_inhibitor,
+#tray,
+#battery,
+#memory,
+#temperature,
+#cpu,
+#custom-wf-recorder,
+#custom-DDC10,
+#custom-DDC12 {
     margin: 0px 3px;
     padding: 0px 5px;
     border-bottom: 2px solid;
     border-bottom-color: @white
 }
 
-#mode:hover, #mpd:hover, #custom-weather:hover, #custom-playerctl:hover, 
-#clock:hover, #network:hover, #pulseaudio:hover, #backlight:hover, 
-#disk:hover, #custom-uptime:hover, #custom-updates:hover, #custom-quote:hover,
-#idle_inhibitor:hover, #tray:hover, #battery:hover, #memory:hover, 
-#temperature:hover, #cpu:hover {
+#mode:hover,
+#mpd:hover,
+#custom-weather:hover,
+#custom-playerctl:hover,
+#clock:hover,
+#network:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#disk:hover,
+#custom-uptime:hover,
+#custom-updates:hover,
+#custom-quote:hover,
+#idle_inhibitor:hover,
+#tray:hover,
+#battery:hover,
+#memory:hover,
+#custom-wf-recorder:hover,
+#temperature:hover,
+#cpu:hover,
+#custom-DDC10:hover,
+#custom-DDC12:hover {
     background-color: @dark-magenta;
     border-bottom-color: @green
 }
@@ -49,6 +82,10 @@ window#waybar {
 #workspaces {
     padding: 0px;
     margin: 0px 3px
+}
+
+#custom-wf-recorder {
+    color: @red;
 }
 
 /* Workspaces styling */
@@ -108,7 +145,8 @@ window#waybar {
     border-bottom-color: @temperature-critical-color;
 }
 
-#battery.charging, #battery.plugged {
+#battery.charging,
+#battery.plugged {
     color: @green;
     border-bottom-color: @green
 }
@@ -130,17 +168,17 @@ window#waybar {
 
 #pulseaudio.muted {
     color: @red;
-    border-bottom-color: @red;
+    border-bottom-color: @red
 }
 
 #idle_inhibitor {
     color: @idle-inhibitor-color;
-    border-bottom-color: transparent;
+    border-bottom-color: transparent
 }
 
 #idle_inhibitor.activated {
     color: @idle-inhibitor-active-color;
-    border-bottom-color: @idle-inhibitor-active-color;
+    border-bottom-color: @idle-inhibitor-active-color
 }
 
 #tray {
@@ -148,12 +186,19 @@ window#waybar {
     margin: 0 2px;
 }
 
-#tray > .passive {
+#tray>.passive {
     -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
     color: @red;
-    border-bottom-color: @red;
+    border-bottom-color: @red
+}
+
+tooltip {
+    background-color: @magenta;
+    color: #cdd6f4;
+    border: 1px solid @white;
+    padding: 5px
 }
