@@ -17,25 +17,25 @@
 		set $altMenu wofi --show run
 
 		# Your preferred web browser
-		set $browser firefox --new-tab
+		set $browser librewolf
 
 		# Your preferred file manager
-		set $filemanager "nautilus"
+		set $filemanager nautilus
 
 		# Your preferred text editor
-		set $editor obsidian
+		set $editor gnome-text-editor
 
 		# Your preferred calculator
-		set $calculator "gnome-calculator"
+		set $calculator gnome-calculator
 
 		# Your preferred music player
-		set $musicplayer "spotify"
+		set $musicplayer $browser music.youtube.com
 
 		# Your preferred email client
-		set $emailclient firefox --new-tab gmail.com
+		set $emailclient $browser 
 
 		# Your preferred calendar
-		set $calendar firefox --new-tab calendar.google.com
+		set $calendar $browser  
 
 		# Your preferred system monitor
 		set $sysmonitor $term -e btop
@@ -45,9 +45,16 @@
 
 ### Startup applications
 
+	exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+	exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_CURRENT_DESKTOP=sway
+
+	exec_always lxpolkit
+
 	exec brightnessctl s 50%
-	# for_window [app_id="foot"] floating enable, resize set 800 500
 	for_window [app_id="eog"] floating enable, resize set 1000 700
+	for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 15 , resize set 550 350
+	for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 15 , resize set 550 350
 	
 ### Idle configuration
 
@@ -68,10 +75,10 @@
 
 ### Gestures
 
-	#bindgesture swipe:right workspace prev
-	#bindgesture swipe:left workspace next
-	#bindgesture swipe:up focus parent, move container scratchpad
-	#bindgesture swipe:down scratchpad show, floating disable,
+	bindgesture swipe:right workspace prev
+	bindgesture swipe:left workspace next
+	bindgesture swipe:up focus parent, move container scratchpad
+	bindgesture swipe:down scratchpad show, floating disable,
 
 ### Key bindings
 
@@ -92,8 +99,8 @@
 		# Reload the configuration file
 		bindsym $mod+Shift+l		reload
 
-		# Notification center
-		bindsym $mod+g				exec
+		# Hide Waybar
+		bindsym $mod+g				exec ~/.config/sway/hideWaybar.sh
 
 	# Moving around:
 
@@ -187,66 +194,66 @@
 	# Descomentar y configurar segun necesidad
 
 	# Teclas de volumen y audio
-	bindsym --locked XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 2%+
-	bindsym --locked XF86AudioLowerVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 2%-
-	bindsym --locked XF86AudioMute			exec wpctl set-mute		@DEFAULT_AUDIO_SINK@ toggle
-	bindsym --locked XF86AudioMicMute		exec wpctl set-mute		@DEFAULT_AUDIO_SOURCE@ toggle
+		bindsym --locked XF86AudioRaiseVolume	exec pamixer -i 5
+		bindsym --locked XF86AudioLowerVolume	exec pamixer -d 5
+		bindsym --locked XF86AudioMute			exec pamixer -t
+		bindsym --locked XF86AudioMicMute		exec pamixer --default-source -t
 
 	# Teclas de brillo y pantalla
-	bindsym --locked XF86MonBrightnessUp 	exec brightnessctl s +1%
-	bindsym --locked XF86MonBrightnessDown 	exec brightnessctl s 1%-
-	bindsym --locked XF86Display 			exec swaymsg output eDP-1 disable
+		bindsym --locked XF86MonBrightnessUp 	exec brightnessctl s +1%
+		bindsym --locked XF86MonBrightnessDown 	exec brightnessctl s 1%-
+		bindsym --locked XF86Display 			exec swaymsg output eDP-1 disable
 
 	# Teclas de control de reproduccion
-	bindsym --locked XF86AudioPlay 			exec playerctl play-pause
-	bindsym --locked XF86AudioStop 			exec playerctl stop
-	bindsym --locked XF86AudioNext 			exec playerctl next
-	bindsym --locked XF86AudioPrev 			exec playerctl previous
-	
-	bindsym XF86Tools 						exec $musicplayer		#Open media player
+		bindsym --locked XF86AudioPlay 			exec playerctl play-pause
+		bindsym --locked XF86AudioStop 			exec playerctl stop
+		bindsym --locked XF86AudioNext 			exec playerctl next
+		bindsym --locked XF86AudioPrev 			exec playerctl previous
+
+		bindsym XF86Tools 						exec $musicplayer		#Open media player
 
 	# Teclas de red y energia
-	#bindsym XF86WLAN						exec $nmwifi			#Wifi button 
-	bindsym XF86RFKill						exec 					#Airplane mode button
-	#bindsym XF86PowerOff					exec 
+		#bindsym XF86WLAN						exec $nmwifi			#Wifi button 
+		bindsym XF86RFKill						exec 					#Airplane mode button
+		#bindsym XF86PowerOff					exec 
 
 	# Teclas de navegacion web
-	#bindsym XF86Back						exec 
-	#bindsym XF86Forward					exec 
-	bindsym XF86HomePage					exec $browser
-	#bindsym XF86Reload						exec
+		#bindsym XF86Back						exec 
+		#bindsym XF86Forward					exec 
+		bindsym XF86HomePage					exec $browser
+		#bindsym XF86Reload						exec
 
 	# Teclas de aplicaciones y busqueda
-	bindsym XF86Search 						exec $filemanager
-	bindsym XF86Mail 						exec $emailclient
-	bindsym XF86Calculator 					exec $calculator
-	bindsym XF86MyComputer 					exec $filemanager
-	#bindsym XF86LaunchA 					exec 
-	#bindsym XF86LaunchB 					exec 
+		bindsym XF86Search 						exec $filemanager
+		bindsym XF86Mail 						exec $emailclient
+		bindsym XF86Calculator 					exec $calculator
+		bindsym XF86MyComputer 					exec $filemanager
+		#bindsym XF86LaunchA 					exec 
+		#bindsym XF86LaunchB 					exec 
 
 	# Teclas de bloqueo y sesion
-	bindsym XF86ScreenSaver					exec swaylock
-	bindsym XF86Sleep						exec systemctl suspend
+		bindsym XF86ScreenSaver					exec swaylock
+		bindsym XF86Sleep						exec systemctl suspend
 
 	# Teclas multimedia adicionales
-	#bindsym XF86Eject						exec 
-	#bindsym XF86AudioMedia					exec 
+		#bindsym XF86Eject						exec 
+		#bindsym XF86AudioMedia					exec 
 
 	#Teclas combinadas (Teclas de hardware que son combinaciones de otras) 
-	bindsym $mod+l							exec swaylock
-	bindsym $mod+Shift+s					exec  ~/.config/sway/screenshot.sh 0
-	
-	bindsym $mod+i 							exec $nmwifi					 #Boton Internet
-	bindsym $mod+o 							exec							 #Boton Opciones
-	bindsym $mod+p 							exec swaymsg output eDP-1 toggle #Desactivar pantalla integrada
+		bindsym $mod+l							exec swaylock
+		bindsym $mod+Shift+s					exec  ~/.config/sway/screenshot.sh 0
+		
+		bindsym $mod+i 							exec $nmwifi					 	#Boton Internet
+		bindsym $mod+o 							exec 								#Boton Opciones
+		bindsym $mod+p 							exec swaymsg output eDP-1 toggle	#Desactivar pantalla integrada
 
 	#Otras
-	bindsym Control+Shift+Escape			exec $sysmonitor				 #Abrir monitor de sistema
+		bindsym Control+Shift+Escape			exec $sysmonitor				 #Abrir monitor de sistema
 
-	bindsym Pause							exec $editor
-	bindsym Print							exec ~/.config/sway/screenshot.sh 1
+		bindsym Pause							exec $editor
+		bindsym Print							exec ~/.config/sway/screenshot.sh 1
 
-	bindsym Scroll_Lock						exec 
+		bindsym Scroll_Lock						exec 
 
 ### Modes
 
@@ -303,7 +310,7 @@
 		# [in] indicator: The color used to indicate where a new view will open.
 	
 	# class						border	bckGrnd	text	indctr
-	client.focused				$bgF	$inF	$bgF	$txF
+	client.focused				$txN	$txN	$bgF	$inF
 	client.focused_inactive		$brN	$bgN	$txN	$inN
 	client.unfocused			$brN	$bgN	$txN	$inN
 	client.urgent				$brU	$bgU	$txU	$inF
@@ -311,7 +318,7 @@
 	# Window borders
 	default_border 			pixel 1
 	default_floating_border pixel 1
-	hide_edge_borders 		smart
+	#hide_edge_borders 		none
 	smart_borders 			on
 
 	# Window gaps
@@ -347,10 +354,13 @@
 
 		# layouts de teclado: US Internacional (con AltGr dead) y Latinoamericano
 		input "type:keyboard" {
-			xkb_layout latam,us
-			xkb_variant ,altgr-intl
+			xkb_layout us
+			xkb_variant altgr-intl
+			
+			# xkb_layout latam,us
+			# xkb_variant ,altgr-intl
 			xkb_options "grp:alt_space_toggle"
-			# Comment if needed
+			#;;; Comment if needed
 			xkb_numlock enabled
 		}
 
@@ -379,9 +389,9 @@
 		output *
 		{
 			#Resolution and frequency
-			#mode 1920x1080
+			# mode 1920x1080
 			#Virtual position
-			#pos 0 0
+			# pos 0 0
 			#Scale
 			# scale 1.0
 			#Transformmation
@@ -393,25 +403,25 @@
 		# Configuracion basica para dos pantallas (Laptop + HDMI)
 		
 			#Seleccionar monitor principal
-			workspace 2 output HDMI-A-1 
+			#workspace 2 output HDMI-A-1 
 			
 			#Pantalla Integrada (Laptop)
-			output eDP-1 
-			{
-				mode 1366x768
-				pos 1920 0
-				scale 1.0
-				transform normal
-			}
+			#output eDP-1 
+			#{
+			#	mode 1366x768
+			#	pos 1920 0
+			#	scale 1.0
+			#	transform normal
+			#}
 			
 			#Pantalla HDMI
-			output HDMI-A-1 
-			{
-				mode 1920x1080
-				pos 0 0
-				scale 1.0
-				transform normal
-			}
+			#output HDMI-A-1 
+			#{
+			#	mode 1920x1080
+			#	pos 0 0
+			#	scale 1.0
+			#	transform normal
+			#}
 
 ### Includes
 	include /etc/sway/config.d/*
