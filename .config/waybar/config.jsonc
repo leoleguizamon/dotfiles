@@ -136,9 +136,9 @@
             ]
         },
         "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
-        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%"
+        "on-click": "exec pamixer -t",
+        "on-scroll-up": "exec pamixer -i 1",
+        "on-scroll-down": "exec pamixer -d 1"
     },
     "backlight": {
         "format": "{percent}% {icon}",
@@ -155,7 +155,6 @@
         "exec": "echo 'Hola'",
         "signal": 1,
         "return-type": "json",
-        "on-click": "~/.config/waybar/ddc-control.sh 10 + 10",
         "tooltip-format": "Stop recording"
     },
     "custom/DDC10": {

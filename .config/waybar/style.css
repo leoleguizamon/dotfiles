@@ -97,12 +97,10 @@ window#waybar {
     color: @green;
     background: @dark-magenta;
     border-bottom-color: @green;
-    font-weight: 900
 }
 
 #workspaces button.focused {
     border-bottom-color: @green;
-    font-weight: 900
 }
 
 #workspaces button.urgent {
