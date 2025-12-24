@@ -1,0 +1,15 @@
+[Icon Theme]
+Name=Dracula
+Comment=Folders for Dracula gtk theme.
+Inherits=Papirus-Dark,breeze-dark,Zafiro,ubuntu-mono-dark,Mint-X,elementary,gnome,hicolor
+
+
+# Directory list
+Directories=Places/48
+
+[Places/48]
+Size=48
+Context=Places
+MinSize=32
+MaxSize=512
+Type=Scalable

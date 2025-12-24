@@ -27,3 +27,6 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 GTK_USE_PORTAL=1
+
+XCURSOR_THEME=Win11OSX
+XCURSOR_SIZE=24
