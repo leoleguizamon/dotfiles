@@ -8,18 +8,15 @@
 @define-color blue #7aa2f7;
 @define-color magenta #1b0329;
 @define-color dark-magenta #0e0314;
-@define-color cyan #7dcfff;
 @define-color white #bfacc8;
 @define-color orange #ff9e64;
 
 * {
     /* Base styling for all modules */
+    all: unset;
     border: none;
     border-radius: 0;
-    font-family: "";
     font-size: 14px;
-    min-height: 0;
-    color: @white
 }
 
 window#waybar {
@@ -90,20 +87,20 @@ window#waybar {
 
 /* Workspaces styling */
 #workspaces button {
-    padding: 0px;
+    padding: 5px;
     margin: 0px 3px;
     border-bottom: 2px solid;
     background-color: transparent
 }
 
 #workspaces button:hover {
+    color: @green;
     background: @dark-magenta;
     border-bottom-color: @green;
     font-weight: 900
 }
 
 #workspaces button.focused {
-    color: @green;
     border-bottom-color: @green;
     font-weight: 900
 }
