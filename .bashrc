@@ -119,4 +119,4 @@ if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
   exec sway
 fi
 
-
+GTK_USE_PORTAL=1
