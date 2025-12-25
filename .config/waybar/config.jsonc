@@ -21,8 +21,6 @@
         "memory",
         "temperature",
         "battery",
-        "custom/DDC10",
-        "custom/DDC12",
         "clock",
         "tray"
     ],

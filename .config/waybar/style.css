@@ -17,6 +17,7 @@
     border: none;
     border-radius: 0;
     font-size: 14px;
+    color: @white;
 }
 
 window#waybar {
@@ -110,7 +111,6 @@ window#waybar {
 
 /* Module-specific styling */
 #mode {
-    color: @white;
     border-bottom-color: @dark-magenta;
     background: @background
 }
