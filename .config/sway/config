@@ -410,7 +410,7 @@
 			#workspace 2 output HDMI-A-1 
 			
 			#Pantalla Integrada (Laptop)
-			#output eDP-1 
+			output eDP-1 
 			{
 				mode 1920x1080
 				pos 1920 0

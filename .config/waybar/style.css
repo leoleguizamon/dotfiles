@@ -128,10 +128,12 @@ window#waybar {
 }
 
 #custom-playerctl.Playing {
+    border-bottom: 2px solid;
     border-bottom-color: @dark-green;
 }
 
 #custom-playerctl.Paused {
+    border-bottom: 20px solid;
     border-bottom-color: @dark-magenta;
 }
 

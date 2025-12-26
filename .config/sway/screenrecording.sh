@@ -37,8 +37,6 @@ case $1 in
         echo $! > "$PID_FILE"
         disown
 
-        notify-send -u low "Recording started" "$(basename "$FILENAME")"
-
         # Enviar señal a Waybar para mostrar módulo
         pkill -RTMIN+8 waybar
         ;;
