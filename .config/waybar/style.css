@@ -1,8 +1,5 @@
 @define-color background rgba(27, 3, 41, 0.80);
-@define-color foreground #c0caf5;
-@define-color black #000000;
-@define-color red #ff0000;
-@define-color dark-green #0e0314;
+@define-color red #881600;
 @define-color green #39ff14;
 @define-color yellow #e3e36a;
 @define-color blue #7aa2f7;
@@ -12,95 +9,117 @@
 @define-color orange #ff9e64;
 
 * {
-    /* Base styling for all modules */
     all: unset;
     border: none;
     border-radius: 0;
-    font-size: 14px;
-    color: @white;
+    font-size: 16px;
+    color: @white
 }
 
 window#waybar {
     background-color: @background
 }
 
-/* Common module styling with border-bottom */
-#mode,
-#mpd,
-#custom-weather,
-#custom-playerctl,
-#clock,
-#network,
-#pulseaudio,
-#backlight,
-#disk,
-#custom-uptime,
-#custom-updates,
-#custom-quote,
-#idle_inhibitor,
-#tray,
-#battery,
-#memory,
-#temperature,
-#cpu,
-#custom-wf-recorder,
-#custom-DDC10,
-#custom-DDC12 {
+#custom-wf-recorder {
+    color: @red
+}
+
+#network.disconnected {
+    color: @red;
+    border-bottom-color: @red
+}
+
+/**************************/
+/** Sound module styling **/
+/**************************/
+#pulseaudio {
+    min-width: 50px;
+}
+
+#pulseaudio.muted {
+    color: @red;
+    border-bottom-color: @red
+}
+
+#pulseaudio-slider {
+    padding: 0 10;
+    margin: 0 3 0 0;
+    min-width: 150px;
+}
+
+#pulseaudio-slider slider {
+    background-color: @white;
+    border-radius: 100%
+}
+
+#pulseaudio-slider highlight {
+    border-radius: 5px;
+    background: @green;
+    min-height: 10px
+}
+
+#pulseaudio-slider trough {
+    border-radius: 5px;
+    background: #3c014e;
+}
+
+#sound {
     margin: 0px 3px;
     padding: 0px 5px;
+    border-bottom: 2px solid @white
+}
+
+/**************************/
+/**  Power menu styling  **/
+/**************************/
+#custom-reboot,
+#custom-suspend,
+#custom-power,
+#custom-shutdown {
+    margin: 0px;
+    padding: 0 20px 0 16px;
+    font-size: 21px;
     border-bottom: 2px solid;
     border-bottom-color: @white
 }
 
-#mode:hover,
-#mpd:hover,
-#custom-weather:hover,
-#custom-playerctl:hover,
-#clock:hover,
-#network:hover,
-#pulseaudio:hover,
-#backlight:hover,
-#disk:hover,
-#custom-uptime:hover,
-#custom-updates:hover,
-#custom-quote:hover,
-#idle_inhibitor:hover,
-#tray:hover,
-#battery:hover,
-#memory:hover,
-#custom-wf-recorder:hover,
-#temperature:hover,
-#cpu:hover,
-#custom-DDC10:hover {
-    background-color: @dark-magenta;
-    border-bottom-color: @green
-}
-
-#workspaces {
-    padding: 0px;
-    margin: 0px 3px
-}
-
-#custom-wf-recorder {
+#custom-shutdown:hover {
     color: @red;
 }
 
-/* Workspaces styling */
+#custom-suspend:hover {
+    color: @blue;
+}
+
+#custom-reboot:hover {
+    color: @yellow;
+}
+
+#power {
+    margin: 0 3px;
+}
+
+/**************************/
+/** Workspaces styling   **/
+/**************************/
+#workspaces {
+    margin: 0px 3px 0px 0px;
+}
+
 #workspaces button {
-    padding: 5px;
     margin: 0px 3px;
+    padding: 0px 5px;
     border-bottom: 2px solid;
-    background-color: transparent
 }
 
 #workspaces button:hover {
-    color: @green;
     background: @dark-magenta;
-    border-bottom-color: @green;
+    color: @green;
+    border-bottom-color: @green
 }
 
 #workspaces button.focused {
-    border-bottom-color: @green;
+    border-bottom-color: @green
 }
 
 #workspaces button.urgent {
@@ -108,37 +127,52 @@ window#waybar {
     color: @yellow
 }
 
-/* Module-specific styling */
-#mode {
-    border-bottom-color: @dark-magenta;
-    background: @background
+/**************************/
+/**     Tray styling     **/
+/**************************/
+#tray menu {
+    padding: 8px;
+    background-color: @magenta;
+    border: 1px solid @white
 }
 
-#mpd {
-    color: @background;
-    background: @background;
-    border-bottom-color: @dark-magenta;
+#tray,
+#scratchpad,
+#window{
+    padding: 0 10px;
+    margin: 0 3px;
+    min-width: 25px;
+    font-size: 21px;
+    border-bottom: 2px solid @white
 }
 
-#mpd.disconnected,
-#mpd.stopped {
-    color: @foreground;
-    border-bottom-color: transparent;
+#keyboard-state {
+    padding: 0 12 0 5px;
+    margin: 0 3px;
+    border-bottom: 2px solid @white
 }
 
-#custom-playerctl.Playing {
-    border-bottom: 2px solid;
-    border-bottom-color: @green;
-}
-
-#custom-playerctl.Paused {
-    border-bottom: 2px solid;
-    border-bottom-color: @dark-magenta;
+#mode{
+    border-bottom: 2px solid @white
 }
 
 #temperature.critical {
     color: @temperature-critical-color;
     border-bottom-color: @temperature-critical-color;
+}
+
+/**************************/
+/**      Sys Info        **/
+/**************************/
+
+#cpu,
+#memory,
+#temperature,
+#language,
+#user{
+    margin: 0px 3px;
+    padding: 0px 5px;
+    border-bottom: 2px solid @white
 }
 
 #battery.charging,
@@ -157,44 +191,35 @@ window#waybar {
     border-bottom-color: @red
 }
 
-#network.disconnected {
-    color: @red;
-    border-bottom-color: @red
-}
-
-#pulseaudio.muted {
-    color: @red;
-    border-bottom-color: @red
-}
-
-#idle_inhibitor {
-    color: @idle-inhibitor-color;
-    border-bottom-color: transparent
-}
-
-#idle_inhibitor.activated {
-    color: @idle-inhibitor-active-color;
-    border-bottom-color: @idle-inhibitor-active-color
-}
-
-#tray {
-    padding: 0 10px;
-    margin: 0 2px;
-}
-
-#tray>.passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray>.needs-attention {
-    -gtk-icon-effect: highlight;
-    color: @red;
-    border-bottom-color: @red
+/**************************/
+/**      Hover global    **/
+/**************************/
+#sound:hover,
+#custom-reboot:hover,
+#custom-suspend:hover,
+#custom-power:hover,
+#custom-shutdown:hover,
+#tray:hover,
+#scratchpad:hover,
+#window:hover,
+#mode:hover,
+#keyboard-state:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#language:hover,
+#user:hover{
+    background-color: @dark-magenta;
+    border-bottom: 2px solid @green
 }
 
 tooltip {
     background-color: @magenta;
     color: #cdd6f4;
-    border: 1px solid @white;
-    padding: 5px
+    border: 1px solid @white
+
+}
+
+tooltip label {
+    padding: 8px;
 }

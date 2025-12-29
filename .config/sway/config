@@ -57,8 +57,8 @@
 
 	exec brightnessctl s 50%
 	for_window [app_id="eog"] floating enable, resize set 1000 700
-	for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 20 , resize set 800 350
-	for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 20 , resize set 550 350
+	for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 18 , resize set 800 350
+	for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 18 , resize set 550 350
 	
 ### Idle configuration
 
@@ -261,10 +261,8 @@
 
 ### Modes
 
-		set $mode_system   [L] 󰌾  [S] 󰒲   [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
+		set $mode_system  [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
 		mode "$mode_system" {
-			bindsym l exec swaylock
-			bindsym s exec --no-startup-id systemctl suspend, mode "default"
 			bindsym Shift+e exit
 			bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
 			bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"

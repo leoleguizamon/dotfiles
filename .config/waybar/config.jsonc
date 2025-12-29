@@ -7,52 +7,19 @@
     "margin-right": 5,
     "modules-left": [
         "sway/workspaces",
-        "sway/mode",
-        "custom/playerctl"
+        "sway/mode"
     ],
     "modules-center": [
-        "sway/window"
+        "sway/window",
     ],
     "modules-right": [
-        "pulseaudio",
-        "backlight",
-        "network",
-        "cpu",
-        "memory",
-        "temperature",
-        "battery",
-        "clock",
-        "tray"
+        "tray",
+        "sway/scratchpad",
+        "group/sound",
+        "group/info",
+        "keyboard-state",
+        "group/power"
     ],
-    "sway/window": {
-		"format": "{}",
-		"max-length": 30,
-		"rewrite": {
-		    ".*[—-] ([^—-]+)$": "$1"
-		},
-		"icon":true
-	},
-    "sway/workspaces": {
-        "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "10": "󰎆"
-        },
-        "persistent_workspaces": {
-            "1": []
-        }
-    },
-    "sway/mode": {
-        "format": "<span>{}</span>"
-    },
-    "custom/playerctl": {
-        "format": " 󰐊 {}",
-        "return-type": "json",
-        "max-length": 40,
-        "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl next"
-    },
     "clock": {
         "format": "{:%I:%M %p} 󰥔",
         "format-alt": "{:%d-%m-%Y} 󰃮",
@@ -64,16 +31,187 @@
             }
         }
     },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": " ",
+            "performance": " ",
+            "balanced": " ",
+            "power-saver": " "
+        }
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) 󰖩",
+        "format-ethernet": "{ifname} 󰈀",
+        "format-linked": "{ifname} (No IP) 󰈀",
+        "format-disconnected": "Disconnected 󰖪",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
+    },
+    "custom/wf-recorder": {
+        "format": "{text}",
+        "exec": "echo 'Hola'",
+        "signal": 1,
+        "return-type": "json",
+        "tooltip-format": "Stop recording"
+    },
+    "custom/DDC10": {
+        "format": "{}",
+        "exec": "~/.config/waybar/ddc-control.sh get",
+        "return-type": "json",
+        "signal": 1,
+        "on-click": "~/.config/waybar/ddc-control.sh up",
+        "on-click-right": "~/.config/waybar/ddc-control.sh down",
+        "on-click-middle": "~/.config/waybar/ddc-control.sh toggle",
+        "on-hover": "~/.config/waybar/ddc-control.sh get"
+    },
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ],
+        "on-scroll-up": "brightnessctl set +1%",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "backlight/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    /**********************Terminados**********************/
+    /*Sound Menu*/
+    "group/sound": {
+        "orientation": "inherit",
+        "modules": [
+            "pulseaudio",
+            "pulseaudio/slider"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "sound-drawer"
+        },
+        "on-scroll-up": "exec pamixer -i 1",
+        "on-scroll-down": "exec pamixer -d 1"
+    },
+    "pulseaudio": {
+        "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",
+        "on-click": "exec pamixer -t",
+        "format": "{volume} {icon}",
+        "format-bluetooth": "{volume}% 󰂰",
+        "format-bluetooth-muted": "{icon} 󰂲",
+        "format-muted": " 󰝟 ",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰄝",
+            "car": "󰄋",
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾"
+            ]
+        },
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    /*Power Menu*/
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power",
+            "custom/suspend",
+            "custom/reboot",
+            "custom/shutdown"
+        ]
+    },
+    "custom/power": {
+        "format": "󰤁",
+        "tooltip": false
+    },
+    "custom/reboot": {
+        "format": "󰜉",
+        "tooltip": false,
+        "on-click": "systemctl reboot"
+    },
+    "custom/suspend": {
+        "format": "󰒲",
+        "tooltip": false,
+        "on-click": "systemctl suspend"
+    },
+    "custom/shutdown": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "systemctl shutdown now"
+    },
+    /* Tray */
+    "tray": {
+        "spacing": 5,
+        "icon-size": 21
+    },
+    /* Sway  modules*/
+    "sway/workspaces": {
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "10": "0"
+        },
+        "persistent_workspaces": {
+            "1": []
+        }
+    },
+    "sway/scratchpad": {
+        "format": "{icon}",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "tooltip-format": "{app}: {title}",
+        "on-click": "swaymsg 'scratchpad show'",
+        "on-click-right": "swaymsg 'move scratchpad'",
+        "on-click-middle": "swaymsg '[floating] kill'",
+    },
+    "sway/window": {
+        "format": "{}",
+        "max-length": 30,
+        "rewrite": {
+            ".*[—-] ([^—-]+)$": "$1"
+        },
+        "icon": true,
+        "icon-size": 21,
+        "on-click": "swaymsg 'move scratchpad'"
+    },
+    "sway/mode": {
+        "format": "<span>{}</span>"
+    },
+    "sway/language": {
+        "format": "{}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+    },
+    /* Info modules*/
     "cpu": {
         "format": "{usage}% 󰘚",
         "tooltip": true,
-        "interval": 1,
-        "on-click-right": "foot -e btop"
+        "interval": 10
     },
     "memory": {
         "format": "{}% 󰍛",
-        "interval": 1,
-        "on-click-right": "foot -e btop"
+        "interval": 10
     },
     "temperature": {
         "critical-threshold": 80,
@@ -82,9 +220,31 @@
             "󱃃",
             "󰔏",
             "󱃂"
-        ],
-        "on-click-right": "foot -e btop"
+        ]
     },
+    "user": {
+        "format": "",
+        "interval": 9999,
+        "height": 25,
+        "width": 25,
+        "icon": true,
+        "open-on-click": true,
+    },
+    "group/info": {
+        "orientation": "inherit",
+        "modules": [
+            "user",
+            "sway/language",
+            "cpu",
+            "memory",
+            "temperature"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "info-drawer"
+        }
+    },
+    /* Laptop modules*/
     "battery": {
         "states": {
             "good": 95,
@@ -109,67 +269,16 @@
             "󰁹"
         ]
     },
-    "network": {
-        "format-wifi": "{essid} ({signalStrength}%) 󰖩",
-        "format-ethernet": "{ifname} 󰈀",
-        "format-linked": "{ifname} (No IP) 󰈀",
-        "format-disconnected": "Disconnected 󰖪",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname}: {ipaddr}",
-        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
-    },
-    "pulseaudio": {
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% 󰂰",
-        "format-bluetooth-muted": "{icon} 󰂲",
-        "format-muted": "󰝟",
-        "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "󰥰",
-            "headset": "󰋎",
-            "phone": "󰏲",
-            "portable": "󰄝",
-            "car": "󰄋",
-            "default": [
-                "󰕿",
-                "󰖀",
-                "󰕾"
-            ]
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": {
+            "numlock": "{icon}",
+            "capslock": "{icon} "
         },
-        "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",
-        "on-click": "exec pamixer -t",
-        "on-scroll-up": "exec pamixer -i 1",
-        "on-scroll-down": "exec pamixer -d 1"
-    },
-    "backlight": {
-        "format": "{percent}% {icon}",
-        "format-icons": [
-            "󰃞",
-            "󰃟",
-            "󰃠"
-        ],
-        "on-scroll-up": "brightnessctl set +1%",
-        "on-scroll-down": "brightnessctl set 1%-"
-    },
-    "custom/wf-recorder": {
-        "format": "{text}",
-        "exec": "echo 'Hola'",
-        "signal": 1,
-        "return-type": "json",
-        "tooltip-format": "Stop recording"
-    },
-    "custom/DDC10": {
-        "format": "{}",
-        "exec": "~/.config/waybar/ddc-control.sh get",
-        "return-type": "json",
-        "signal": 1,
-        "on-click": "~/.config/waybar/ddc-control.sh up",
-        "on-click-right": "~/.config/waybar/ddc-control.sh down",
-        "on-click-middle": "~/.config/waybar/ddc-control.sh toggle",
-        "on-hover": "~/.config/waybar/ddc-control.sh get"
-    },
-    "tray": {
-        "icon-size": 18,
-        "spacing": 5
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
     }
 }
