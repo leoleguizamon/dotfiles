@@ -24,15 +24,11 @@ window#waybar {
     color: @red
 }
 
-#network.disconnected {
-    color: @red;
-    border-bottom-color: @red
-}
-
 /**************************/
-/** Sound module styling **/
+/** Slider modules styling **/
 /**************************/
-#pulseaudio {
+#pulseaudio,
+#backlight{
     min-width: 50px;
 }
 
@@ -41,29 +37,35 @@ window#waybar {
     border-bottom-color: @red
 }
 
-#pulseaudio-slider {
+#pulseaudio-slider,
+#backlight-slider {
     padding: 0 10;
     margin: 0 3 0 0;
     min-width: 150px;
 }
 
-#pulseaudio-slider slider {
+#pulseaudio-slider slider,
+#backlight-slider slider {
     background-color: @white;
     border-radius: 100%
 }
 
-#pulseaudio-slider highlight {
+#pulseaudio-slider highlight,
+#backlight-slider highlight {
     border-radius: 5px;
     background: @green;
     min-height: 10px
 }
 
-#pulseaudio-slider trough {
+#pulseaudio-slider trough,
+#backlight-slider trough {
     border-radius: 5px;
     background: #3c014e;
 }
 
-#sound {
+#sound,
+#light,
+#user {
     margin: 0px 3px;
     padding: 0px 5px;
     border-bottom: 2px solid @white
@@ -84,15 +86,15 @@ window#waybar {
 }
 
 #custom-shutdown:hover {
-    color: @red;
+    color: @red
 }
 
 #custom-suspend:hover {
-    color: @blue;
+    color: @blue
 }
 
 #custom-reboot:hover {
-    color: @yellow;
+    color: @yellow
 }
 
 #power {
@@ -102,10 +104,6 @@ window#waybar {
 /**************************/
 /** Workspaces styling   **/
 /**************************/
-#workspaces {
-    margin: 0px 3px 0px 0px;
-}
-
 #workspaces button {
     margin: 0px 3px;
     padding: 0px 5px;
@@ -158,23 +156,25 @@ window#waybar {
 
 #temperature.critical {
     color: @temperature-critical-color;
-    border-bottom-color: @temperature-critical-color;
+    border-bottom-color: @temperature-critical-color
+}
+
+#network.disconnected {
+    color: @red;
+    border-bottom-color: @red
+}
+
+#mpris.playing {
+    border-bottom: 2px solid @green   
+}
+
+#mpris.paused {
+    border-bottom: 2px solid @red   
 }
 
 /**************************/
 /**      Sys Info        **/
 /**************************/
-
-#cpu,
-#memory,
-#temperature,
-#language,
-#user{
-    margin: 0px 3px;
-    padding: 0px 5px;
-    border-bottom: 2px solid @white
-}
-
 #battery.charging,
 #battery.plugged {
     color: @green;
@@ -192,8 +192,23 @@ window#waybar {
 }
 
 /**************************/
-/**      Hover global    **/
+/**         Global       **/
 /**************************/
+#cpu,
+#memory,
+#temperature,
+#language,
+#battery,
+#clock,
+#network,
+#power-profiles-daemon,
+#mpris{
+    margin: 0px 3px;
+    padding: 0px 5px;
+    border-bottom: 2px solid @white;
+    min-width: 50px
+}
+
 #sound:hover,
 #custom-reboot:hover,
 #custom-suspend:hover,
@@ -208,11 +223,22 @@ window#waybar {
 #memory:hover,
 #temperature:hover,
 #language:hover,
-#user:hover{
+#user:hover,
+#battery:hover,
+#clock:hover,
+#network:hover,
+#power-profiles-daemon:hover,
+#light:hover,
+#mpris:hover
+{
     background-color: @dark-magenta;
     border-bottom: 2px solid @green
 }
 
+
+/**************************/
+/**       Tooltip        **/
+/**************************/
 tooltip {
     background-color: @magenta;
     color: #cdd6f4;

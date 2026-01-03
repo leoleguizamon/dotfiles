@@ -7,50 +7,25 @@
     "margin-right": 5,
     "modules-left": [
         "sway/workspaces",
-        "sway/mode"
+        "sway/mode","mpris","mpd"
+
     ],
     "modules-center": [
         "sway/window",
+        "sway/scratchpad"
     ],
     "modules-right": [
         "tray",
-        "sway/scratchpad",
+        "group/light",
         "group/sound",
-        "group/info",
+        "network",
+        "battery",
         "keyboard-state",
+        "clock",
+        "group/info",
         "group/power"
     ],
-    "clock": {
-        "format": "{:%I:%M %p} 󰥔",
-        "format-alt": "{:%d-%m-%Y} 󰃮",
-        "tooltip-format": "<big>{:%d-%m-%Y}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click-right": "",
-        "calendar": {
-            "format": {
-                "today": "<span color='#39ff14'><b><u>{}</u></b></span>"
-            }
-        }
-    },
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": " ",
-            "performance": " ",
-            "balanced": " ",
-            "power-saver": " "
-        }
-    },
-    "network": {
-        "format-wifi": "{essid} ({signalStrength}%) 󰖩",
-        "format-ethernet": "{ifname} 󰈀",
-        "format-linked": "{ifname} (No IP) 󰈀",
-        "format-disconnected": "Disconnected 󰖪",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname}: {ipaddr}",
-        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
-    },
+
     "custom/wf-recorder": {
         "format": "{text}",
         "exec": "echo 'Hola'",
@@ -68,23 +43,10 @@
         "on-click-middle": "~/.config/waybar/ddc-control.sh toggle",
         "on-hover": "~/.config/waybar/ddc-control.sh get"
     },
-    "backlight": {
-        "format": "{percent}% {icon}",
-        "format-icons": [
-            "󰃞",
-            "󰃟",
-            "󰃠"
-        ],
-        "on-scroll-up": "brightnessctl set +1%",
-        "on-scroll-down": "brightnessctl set 1%-"
-    },
-    "backlight/slider": {
-        "min": 0,
-        "max": 100,
-        "orientation": "horizontal"
-    },
+
     /**********************Terminados**********************/
-    /*Sound Menu*/
+    
+    /* Sound Menu */
     "group/sound": {
         "orientation": "inherit",
         "modules": [
@@ -124,7 +86,8 @@
         "max": 100,
         "orientation": "horizontal"
     },
-    /*Power Menu*/
+
+    /* Power Menu */
     "group/power": {
         "orientation": "inherit",
         "drawer": {
@@ -151,19 +114,21 @@
     "custom/suspend": {
         "format": "󰒲",
         "tooltip": false,
-        "on-click": "systemctl suspend"
+        "on-click": "swaylock && systemctl suspend"
     },
     "custom/shutdown": {
         "format": "",
         "tooltip": false,
-        "on-click": "systemctl shutdown now"
+        "on-click": "systemctl poweroff"
     },
+
     /* Tray */
     "tray": {
         "spacing": 5,
         "icon-size": 21
     },
-    /* Sway  modules*/
+
+    /* Sway  modules */
     "sway/workspaces": {
         "all-outputs": true,
         "format": "{icon}",
@@ -190,7 +155,8 @@
         "format": "{}",
         "max-length": 30,
         "rewrite": {
-            ".*[—-] ([^—-]+)$": "$1"
+            ".*[—-] ([^—-]+)$": "$1",
+            "": "leoleguizamon"
         },
         "icon": true,
         "icon-size": 21,
@@ -203,7 +169,23 @@
         "format": "{}",
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
     },
-    /* Info modules*/
+
+    /* Info Menu */
+    "group/info": {
+        "orientation": "inherit",
+        "modules": [
+            "user",
+            "sway/language",
+            "cpu",
+            "memory",
+            "temperature",
+            "power-profiles-daemon"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "info-drawer"
+        }
+    },
     "cpu": {
         "format": "{usage}% 󰘚",
         "tooltip": true,
@@ -230,21 +212,55 @@
         "icon": true,
         "open-on-click": true,
     },
-    "group/info": {
-        "orientation": "inherit",
-        "modules": [
-            "user",
-            "sway/language",
-            "cpu",
-            "memory",
-            "temperature"
-        ],
-        "drawer": {
-            "transition-left-to-right": false,
-            "children-class": "info-drawer"
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": " ",
+            "performance": " ",
+            "balanced": " ",
+            "power-saver": " "
         }
     },
-    /* Laptop modules*/
+
+    /* Standar modules*/
+
+    "clock": {
+        "format": "{:%I:%M %p} 󰥔",
+        "format-alt": "{:%d-%m-%Y} 󰃮",
+        "tooltip-format": "<big>{:%d-%m-%Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click-right": "~/.config/waybar/toggle-apps.sh gnome-calendar",
+        "calendar": {
+            "format": {
+                "today": "<span color='#39ff14'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) 󰖩",
+        "format-ethernet": "{ifname} 󰈀",
+        "format-linked": "{ifname} (No IP) 󰈀",
+        "format-disconnected": "Disconnected 󰖪",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": {
+            "numlock": "{icon}",
+            "capslock": "{icon} "
+        },
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+
+    /* Battery modules*/
+
     "battery": {
         "states": {
             "good": 95,
@@ -269,16 +285,64 @@
             "󰁹"
         ]
     },
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": {
-            "numlock": "{icon}",
-            "capslock": "{icon} "
+
+    /* Power Menu */
+
+    "group/light": {
+        "orientation": "inherit",
+        "modules": [
+            "backlight",
+            "backlight/slider"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "backlight-drawer"
         },
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
+        "on-scroll-up": "brightnessctl set +1%",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "backlight": {
+        "format": "{percent} {icon}",
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ]
+    },
+    "backlight/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "mpris": {
+        // Formato principal
+        "format": "{status_icon}  {title}",
+        
+        // Intervalo de actualización (opcional, en segundos)
+        "interval": 1,
+        
+        // Configuración de tooltip
+        "tooltip": true,
+        "tooltip-format": "{title}\n{artist}\n{album}\n[{position}/{length}]\n\n{player_icon}  {player} - {status}",
+        
+        // Iconos por reproductor
+        "player-icons": {
+            "default": "",
+            "spotify": "",
+            "vlc": "󰕼",
+            "firefox": "󰈹",
+            "chrome": "",
+        },
+        
+        // Iconos por estado
+        "status-icons": {
+            "playing": "",
+            "paused": "",
+            "stopped": ""
+        },
+        // Tamaño máximo del texto (opcional)
+        "title-len": 35
+
     }
 }
