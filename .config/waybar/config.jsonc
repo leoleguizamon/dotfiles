@@ -7,8 +7,9 @@
     "margin-right": 5,
     "modules-left": [
         "sway/workspaces",
-        "sway/mode","mpris","mpd"
-
+        "sway/mode",
+        "mpris",
+        "mpd"
     ],
     "modules-center": [
         "sway/window",
@@ -25,7 +26,6 @@
         "group/info",
         "group/power"
     ],
-
     "custom/wf-recorder": {
         "format": "{text}",
         "exec": "echo 'Hola'",
@@ -43,9 +43,7 @@
         "on-click-middle": "~/.config/waybar/ddc-control.sh toggle",
         "on-hover": "~/.config/waybar/ddc-control.sh get"
     },
-
     /**********************Terminados**********************/
-    
     /* Sound Menu */
     "group/sound": {
         "orientation": "inherit",
@@ -86,7 +84,6 @@
         "max": 100,
         "orientation": "horizontal"
     },
-
     /* Power Menu */
     "group/power": {
         "orientation": "inherit",
@@ -121,13 +118,11 @@
         "tooltip": false,
         "on-click": "systemctl poweroff"
     },
-
     /* Tray */
     "tray": {
         "spacing": 5,
         "icon-size": 21
     },
-
     /* Sway  modules */
     "sway/workspaces": {
         "all-outputs": true,
@@ -169,7 +164,6 @@
         "format": "{}",
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
     },
-
     /* Info Menu */
     "group/info": {
         "orientation": "inherit",
@@ -223,9 +217,7 @@
             "power-saver": " "
         }
     },
-
     /* Standar modules*/
-
     "clock": {
         "format": "{:%I:%M %p} 󰥔",
         "format-alt": "{:%d-%m-%Y} 󰃮",
@@ -258,9 +250,7 @@
             "unlocked": ""
         }
     },
-
     /* Battery modules*/
-
     "battery": {
         "states": {
             "good": 95,
@@ -285,9 +275,7 @@
             "󰁹"
         ]
     },
-
     /* Power Menu */
-
     "group/light": {
         "orientation": "inherit",
         "modules": [
@@ -314,18 +302,14 @@
         "max": 100,
         "orientation": "horizontal"
     },
-
     "mpris": {
         // Formato principal
         "format": "{status_icon}  {title}",
-        
         // Intervalo de actualización (opcional, en segundos)
         "interval": 1,
-        
         // Configuración de tooltip
         "tooltip": true,
         "tooltip-format": "{title}\n{artist}\n{album}\n[{position}/{length}]\n\n{player_icon}  {player} - {status}",
-        
         // Iconos por reproductor
         "player-icons": {
             "default": "",
@@ -333,8 +317,8 @@
             "vlc": "󰕼",
             "firefox": "󰈹",
             "chrome": "",
+            "chromium": "󰎆"
         },
-        
         // Iconos por estado
         "status-icons": {
             "playing": "",
@@ -343,6 +327,5 @@
         },
         // Tamaño máximo del texto (opcional)
         "title-len": 35
-
     }
 }
