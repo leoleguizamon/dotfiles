@@ -262,17 +262,17 @@
 
 ### Modes
 
-		set $mode_system  [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
-		mode "$mode_system" {
-			bindsym Shift+e exit
-			bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
-			bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+		#set $mode_system  [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
+		#mode "$mode_system" {
+		#	bindsym Shift+e exit
+		#	bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
+		#	bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
-			# return to default mode
-			bindsym Return mode "default"
-			bindsym Escape mode "default"
-		}
-		bindsym Control+Alt+Delete mode "$mode_system"
+		#	# return to default mode
+		#	bindsym Return mode "default"
+		#	bindsym Escape mode "default"
+		#}
+		#bindsym Control+Alt+Delete mode "$mode_system"
 
 ### Visual
 
