@@ -1,10 +1,6 @@
 [Default Applications]
-text/plain=org.gnome.TextEditor.desktop
-application/pdf=org.gnome.Evince.desktop
 
 [Added Associations]
-text/plain=org.gnome.TextEditor.desktop;
-application/pdf=org.gnome.Evince.desktop;
 
 [Removed Associations]
 text/plain=codium.desktop
@@ -30,3 +26,8 @@ text/html=firefox.desktop
 text/xml=firefox.desktop
 video/ogg=firefox.desktop
 video/webm=firefox.desktop
+application/pdf=onlyoffice-desktopeditors.desktop
+text/csv=onlyoffice-desktopeditors.desktop
+text/markdown=onlyoffice-desktopeditors.desktop
+text/plain=onlyoffice-desktopeditors.desktop
+text/tab-separated-values=onlyoffice-desktopeditors.desktop

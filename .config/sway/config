@@ -56,7 +56,7 @@
 	exec_always gsettings set org.gnome.desktop.interface cursor-size 24
 
 	exec brightnessctl s 50%
-	for_window [app_id="eog"] floating enable, resize set 1000 700
+	for_window [app_id="org.gnome.Loupe"] floating enable, resize set 1000 700
 	for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 15 , resize set 800 350
 	for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 15 , resize set 550 350
 	for_window [app_id="org.gnome.Calendar"] floating enable, move position cursor, move down 40 , move left 5
@@ -357,13 +357,14 @@
 
 		# layouts de teclado: US Internacional (con AltGr dead) y Latinoamericano
 		input "type:keyboard" {
-			#xkb_layout us
-			#xkb_variant altgr-intl
+			xkb_layout us
+			xkb_variant altgr-intl
 			
-			xkb_layout latam,us
-			xkb_variant ,altgr-intl
+			#xkb_layout latam,us
+			#xkb_variant ,altgr-intl
 			xkb_options "grp:alt_space_toggle"
-			#;;; Comment if needed
+			
+			# Comment if needed
 			xkb_numlock enabled
 		}
 

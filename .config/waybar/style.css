@@ -202,7 +202,8 @@ window#waybar {
 #clock,
 #network,
 #power-profiles-daemon,
-#mpris{
+#mpris,
+#custom-DDC10{
     margin: 0px 3px;
     padding: 0px 5px;
     border-bottom: 2px solid @white;
@@ -229,7 +230,8 @@ window#waybar {
 #network:hover,
 #power-profiles-daemon:hover,
 #light:hover,
-#mpris:hover
+#mpris:hover,
+#custom-DDC10:hover
 {
     background-color: @dark-magenta;
     border-bottom: 2px solid @green
