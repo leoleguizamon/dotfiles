@@ -21,7 +21,10 @@ window#waybar {
 }
 
 #custom-wf-recorder {
-    color: @red
+    color: #FF0000;
+    margin: 0px 3px;
+    padding: 0 10px 0 8px;
+    border-bottom: 2px solid @white
 }
 
 /**************************/
@@ -39,8 +42,8 @@ window#waybar {
 
 #pulseaudio-slider,
 #backlight-slider {
-    padding: 0 10;
-    margin: 0 3 0 0;
+    padding: 0 10px;
+    margin: 0 3px 0 0;
     min-width: 150px;
 }
 
@@ -74,14 +77,17 @@ window#waybar {
 /**************************/
 /**  Power menu styling  **/
 /**************************/
+#custom-power{
+    font-size: 20px;
+}
+
+#custom-power,
 #custom-reboot,
 #custom-suspend,
-#custom-power,
 #custom-logout,
-#custom-shutdown {
+#custom-shutdown{
     margin: 0px;
     padding: 0 20px 0 16px;
-    font-size: 21px;
     border-bottom: 2px solid;
     border-bottom-color: @white
 }
@@ -150,7 +156,7 @@ window#waybar {
 }
 
 #keyboard-state {
-    padding: 0 12 0 5px;
+    padding: 0 12px 0 5px;
     margin: 0 3px;
     border-bottom: 2px solid @white
 }
@@ -237,7 +243,8 @@ window#waybar {
 #power-profiles-daemon:hover,
 #light:hover,
 #mpris:hover,
-#custom-DDC10:hover
+#custom-DDC10:hover,
+#custom-wf-recorder:hover
 {
     background-color: @dark-magenta;
     border-bottom: 2px solid @green

@@ -1,50 +1,92 @@
 #!/bin/bash
 
-LOCKFILE="/tmp/ddcutil.lock"
-STATEFILE="/tmp/waybar-ddc-mode"
-STEP=20
+RECEIVE_PIPE="/tmp/waybar-ddc-module-rx"
+STEP=10
 
 # Valores VCP
 BRIGHTNESS_VCP=10
 CONTRAST_VCP=12
 
+# Estado inicial
+MODE="brightness"
+VCP=$BRIGHTNESS_VCP
+ICON="󰃠"
+LABEL="Brightness"
 
-# Estado por defecto
-[ ! -f "$STATEFILE" ] && echo "brightness" > "$STATEFILE"
-MODE=$(cat "$STATEFILE")
+ddcutil_fast() {
+    ddcutil --noverify --sleep-multiplier .01 "$@" 2>/dev/null
+}
 
-# Selección de modo
-if [ "$MODE" = "brightness" ]; then
-    VCP=$BRIGHTNESS_VCP
-    ICON="󰃠"
-    LABEL="Brightness"
-else
-    VCP=$CONTRAST_VCP
-    ICON="󰆗"
-    LABEL="Contrast"
+ddcutil_slow() {
+    ddcutil --maxtries 15,15,15 "$@" 2>/dev/null
+}
+
+print_value() {
+    # Obtener valor actual con la función pasada como argumento
+    if VALUE=$("$@" -t getvcp "$VCP"); then
+        # Extraer solo el valor numérico (campo 4)
+        VALUE=$(echo "$VALUE" | cut -d ' ' -f 4)
+    else
+        VALUE=-1
+    fi
+    
+    # Salida JSON para Waybar
+    echo "{\"text\": \"${VALUE}% $ICON\", \"tooltip\": \"$LABEL: ${VALUE}%\"}"
+}
+
+# Verificar si hay monitores DDC disponibles
+if ! command -v ddcutil &> /dev/null; then
+    exit 0
 fi
 
-# Acciones
-case "$1" in
-    up)
-        timeout 1.5s ddcutil --noverify --sleep-multiplier=0.1 setvcp "$VCP" + "$STEP"
-        ;;
-    down)
-        timeout 1.5s ddcutil --noverify --sleep-multiplier=0.1 setvcp "$VCP" - "$STEP"
-        ;;
-    toggle)
-        if [ "$MODE" = "brightness" ]; then
-            echo "contrast" > "$STATEFILE"
-        else
-            echo "brightness" > "$STATEFILE"
-        fi
-        ;;
-    get)
-        # Obtener valor actual
-        VALUE=$(ddcutil getvcp "$VCP" 2>/dev/null | \
-            awk -F'current value =|,' '{gsub(/ /,"",$2); print $2}')
-        # Salida JSON para Waybar
-        echo "{\"text\": \"${VALUE}% $ICON\", \"tooltip\": \"$LABEL: ${VALUE}%\"}"
-        ;;
-esac
+if ! ddcutil detect --brief &> /dev/null; then
+    exit 0
+fi
 
+# Limpiar y crear pipe
+rm -rf "$RECEIVE_PIPE"
+mkfifo "$RECEIVE_PIPE"
+
+# Primera lectura
+print_value ddcutil_slow
+
+# Bucle principal
+while true; do
+    read -r command < "$RECEIVE_PIPE"
+    
+    case "$command" in
+        up)
+            ddcutil_fast setvcp "$VCP" + "$STEP"
+            print_value ddcutil_fast
+            ;;
+        down)
+            ddcutil_fast setvcp "$VCP" - "$STEP"
+            print_value ddcutil_fast
+            ;;
+        max)
+            ddcutil_fast setvcp "$VCP" 100
+            print_value ddcutil_fast
+            ;;
+        min)
+            ddcutil_fast setvcp "$VCP" 0
+            print_value ddcutil_fast
+            ;;
+        toggle)
+            # Cambiar entre brillo y contraste
+            if [ "$MODE" = "brightness" ]; then
+                VCP=$CONTRAST_VCP
+                ICON="󰆗"
+                LABEL="Contrast"
+                MODE="contrast"
+            else
+                VCP=$BRIGHTNESS_VCP
+                ICON="󰃠"
+                LABEL="Brightness"
+                MODE="brightness"
+            fi
+            print_value ddcutil_fast
+            ;;
+        *)
+            ;;
+    esac
+done

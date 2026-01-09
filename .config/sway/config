@@ -247,7 +247,9 @@
 	#Teclas combinadas (Teclas de hardware que son combinaciones de otras) 
 		bindsym $mod+l							exec swaylock
 		bindsym $mod+Shift+s					exec  ~/.config/sway/screenshot.sh 0
-		
+		bindsym $mod+Shift+g					exec  ~/.config/sway/screenRecording.sh 0
+		bindsym $mod+Alt+g						exec  ~/.config/sway/screenRecording.sh 1
+
 		bindsym $mod+i 							exec $nmwifi					 	#Boton Internet
 		bindsym $mod+o 							exec 								#Boton Opciones
 		bindsym $mod+p 							exec swaymsg output eDP-1 toggle	#Desactivar pantalla integrada
@@ -335,21 +337,21 @@
 	
 	# Status Bar:
 	bar swaybar_command waybar
-	#	bar {
-	#		position top
-	#		gaps 5
-	#		mode dock
-	#		#bindcode 272 exec 'if ! pgrep -x wofi; then wofi --show drun; fi'
-	#		bindcode 274 exec wofi --show drun
-	#		status_command ~/.config/sway/status.sh
-	#		colors {
-	#			statusline $txN
-	#			background $bgB
-	#			focused_workspace	#00000000 #00000000 $txN
-	#			inactive_workspace	$bgB $bgB $txN
-	#			urgent_workspace	$bgU $brU $txU
-	#		}
+	#bar {
+	#	position top
+	#	gaps 5
+	#	mode dock
+	#	#bindcode 272 exec 'if ! pgrep -x wofi; then wofi --show drun; fi'
+	#	bindcode 274 exec wofi --show drun
+	#	status_command ~/.config/sway/status.sh
+	#	colors {
+	#		statusline $txN
+	#		background $bgB
+	#		focused_workspace	#00000000 #00000000 $txN
+	#		inactive_workspace	$bgB $bgB $txN
+	#		urgent_workspace	$bgU $brU $txU
 	#	}
+	#}
 
 ### Hardware
 
