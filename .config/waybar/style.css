@@ -116,10 +116,12 @@ window#waybar {
 }
 
 #workspaces button:hover {
+    background-color: @dark-magenta;
     color: @green
 }
 
 #workspaces button.focused {
+    background-color: @dark-magenta;
     color: @green
 }
 
@@ -127,17 +129,17 @@ window#waybar {
     background-color: @red;
     color: @yellow
 }
+
 #workspaces button:hover label {
-    color: @green;
+    color: @green
 }
+
 #workspaces button.focused label {
-    color: @green;
+    color: @green
 }
+
 #workspaces button.urgent label {
-    color: @yellow;
-}
-#workspaces button.urgent {
-    background-color: @red;
+    color: @yellow
 }
 
 
