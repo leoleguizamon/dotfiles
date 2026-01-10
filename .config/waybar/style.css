@@ -9,7 +9,6 @@
 @define-color orange #ff9e64;
 
 * {
-    all: unset;
     border: none;
     border-radius: 0;
     font-size: 16px;
@@ -49,6 +48,7 @@ window#waybar {
 
 #pulseaudio-slider slider,
 #backlight-slider slider {
+    all: unset;
     background-color: @white;
     border-radius: 100%
 }
@@ -116,6 +116,7 @@ window#waybar {
 /** Workspaces styling   **/
 /**************************/
 #workspaces button {
+    all: unset;
     margin: 0px 3px;
     padding: 0px 5px;
     border-bottom: 2px solid;
