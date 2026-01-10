@@ -1,0 +1,288 @@
+#!/usr/bin/env python3
+
+"""
+Screen Recorder Tray Application
+Compatible with Sway/Wayland
+Requires: wf-recorder, slurp, zenity, libayatana-appindicator
+"""
+
+import gi
+
+gi.require_version("Gtk", "3.0")
+gi.require_version("AyatanaAppIndicator3", "0.1")
+
+from gi.repository import Gtk, AyatanaAppIndicator3, GLib
+import subprocess
+import os
+import signal
+from datetime import datetime
+
+
+class RecorderTray:
+    def __init__(self):
+        self.recording = False
+        self.recorder_process = None
+        self.current_filename = None
+
+        # Create indicator
+        self.indicator = AyatanaAppIndicator3.Indicator.new(
+            "screen-recorder-tray",
+            "applications-system",
+            AyatanaAppIndicator3.IndicatorCategory.APPLICATION_STATUS,
+        )
+
+        self.indicator.set_status(AyatanaAppIndicator3.IndicatorStatus.ACTIVE)
+        self.indicator.set_title("Recording Screen")
+
+        # Create menu
+        self.menu = Gtk.Menu()
+
+        # Stop recording item
+        stop_item = Gtk.MenuItem(label="Stop Recording")
+        stop_item.connect("activate", self.detener_grabacion)
+        self.menu.append(stop_item)
+
+        self.menu.show_all()
+        self.indicator.set_menu(self.menu)
+
+        # Directory for recordings
+        self.dir_recordings = os.path.expanduser("~/Videos/Recordings")
+        os.makedirs(self.dir_recordings, exist_ok=True)
+
+        # Show selection dialog immediately
+        GLib.idle_add(self.seleccionar_modo)
+
+    def send_notification(self, title, message="", urgency="normal"):
+        """Send desktop notification
+
+        Args:
+            title: Notification title
+            message: Notification message (optional)
+            urgency: Urgency level (low, normal, critical)
+        """
+        try:
+            cmd = ["notify-send", "-u", urgency, title]
+            if message:
+                cmd.append(message)
+            subprocess.run(cmd)
+        except Exception as e:
+            print(f"Error sending notification: {e}")
+
+    def get_unique_filename(self, base_filename):
+        """Generate unique filename if file already exists"""
+        if not os.path.exists(base_filename):
+            return base_filename
+        
+        # Split filename and extension
+        name, ext = os.path.splitext(base_filename)
+        counter = 1
+        
+        # Keep incrementing counter until we find a non-existent file
+        while True:
+            new_filename = f"{name}-{counter}{ext}"
+            if not os.path.exists(new_filename):
+                return new_filename
+            counter += 1
+
+    def seleccionar_modo(self):
+        """Show dialog to select recording mode and filename"""
+        try:
+            # Generate default filename
+            timestamp = datetime.now().strftime("%d%m%y-%H%M%S")
+            default_name = f"rec{timestamp}"
+            
+            # Show forms dialog with filename entry and audio options
+            result = subprocess.run(
+                [
+                    "zenity",
+                    "--forms",
+                    "--title=Screen Recorder",
+                    "--text=Configure your recording:\n\n(Leave empty to use a default file name)",
+                    "--add-combo=Audio:",
+                    "--add-entry=Filename:",
+                    "--combo-values=Disable|Enable",
+                    "--separator=|",
+                    "--icon-name=media-record",
+                    "--width=500",
+                ],
+                capture_output=True,
+                text=True,
+                input=f"{default_name}\nDisable"
+            )
+            
+            if result.returncode != 0:
+                # Cancel pressed
+                self.send_notification("Recording cancelled", urgency="normal")
+                Gtk.main_quit()
+                return
+            
+            # Parse output (format: filename|audio_option)
+            output = result.stdout.strip().split("|")
+            
+            if len(output) >= 1:
+                filename = output[0].strip()
+            else:
+                filename = default_name
+            
+            if len(output) >= 2:
+                audio_option = output[1].strip()
+            else:
+                audio_option = "Disable"
+            
+            # Determine mode based on selection
+            if audio_option == "Enable":
+                modo = 0
+            else:
+                modo = 1
+            
+            # Use default if filename is empty
+            if not filename:
+                filename = default_name
+            
+            # Start recording with selected filename and mode
+            self.iniciar_grabacion(modo=modo, custom_filename=filename)
+
+        except FileNotFoundError:
+            self.send_notification(
+                "Error", "zenity is not installed", urgency="critical"
+            )
+            Gtk.main_quit()
+
+        return False
+
+    def iniciar_grabacion(self, modo, custom_filename=None):
+        """Start recording with selected mode"""
+        try:
+            # Select area with slurp
+            result = subprocess.run(
+                ["slurp", "-b", "1b032977", "-c", "39ff14"],
+                capture_output=True,
+                text=True,
+            )
+
+            if result.returncode != 0 or not result.stdout.strip():
+                self.send_notification(
+                    "Recording cancelled", "No valid area selected", urgency="normal"
+                )
+                Gtk.main_quit()
+                return
+
+            area = result.stdout.strip()
+
+            # Generate filename
+            if custom_filename:
+                base_filename = os.path.join(self.dir_recordings, f"{custom_filename}.mkv")
+            else:
+                timestamp = datetime.now().strftime("%d%m%y-%H%M%S")
+                base_filename = os.path.join(self.dir_recordings, f"rec{timestamp}.mkv")
+            
+            # Get unique filename if file exists
+            filename = self.get_unique_filename(base_filename)
+            self.current_filename = filename
+
+            # Build wf-recorder command
+            cmd = ["wf-recorder", "--cursor", "-g", area, "-f", filename]
+
+            if modo == 0:
+                cmd.insert(1, "--audio")
+                mensaje = "Recording with sound enable"
+            else:
+                mensaje = "Recording with sound disable"
+
+            # Start recording and store the process object
+            self.recorder_process = subprocess.Popen(cmd)
+            self.recording = True
+
+            # Change icon to recording
+            self.indicator.set_icon("media-record")
+
+            # Notification
+            self.send_notification(mensaje, os.path.basename(filename), urgency="low")
+
+        except FileNotFoundError as e:
+            self.send_notification(
+                "Error", f"Command not found: {str(e)}", urgency="critical"
+            )
+            Gtk.main_quit()
+
+    def detener_grabacion(self, widget=None):
+        """Stop current recording"""
+        if not self.recording or self.recorder_process is None:
+            return
+
+        try:
+            # Send SIGINT to the specific process (same as Ctrl+C)
+            self.recorder_process.send_signal(signal.SIGINT)
+            
+            # Wait for the process to finish
+            self.recorder_process.wait(timeout=5)
+            
+            self.recording = False
+            self.recorder_process = None
+
+            # Notification with filename
+            filename_display = os.path.basename(self.current_filename) if self.current_filename else "Video saved"
+            self.send_notification(
+                "Recording stopped", filename_display, urgency="low"
+            )
+
+            print("Recording stopped")
+
+            # Exit application
+            Gtk.main_quit()
+
+        except subprocess.TimeoutExpired:
+            # If process doesn't stop gracefully, force kill it
+            self.recorder_process.kill()
+            self.recorder_process.wait()
+            self.send_notification(
+                "Recording stopped", "Video saved (forced)", urgency="low"
+            )
+            Gtk.main_quit()
+        except Exception as e:
+            print(f"Error stopping: {e}")
+            Gtk.main_quit()
+
+    def exit_app(self, widget=None):
+        """Exit application"""
+        if self.recording:
+            self.detener_grabacion()
+        else:
+            Gtk.main_quit()
+
+def main():
+    # Allow closing with Ctrl+C
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+    # Check dependencies
+    dependencias = ["wf-recorder", "slurp", "zenity"]
+    faltantes = []
+
+    for dep in dependencias:
+        try:
+            subprocess.run(
+                ["which", dep],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=True,
+            )
+        except subprocess.CalledProcessError:
+            faltantes.append(dep)
+
+    if faltantes:
+        print(f"Missing dependencies: {', '.join(faltantes)}")
+        print(f"\nInstall with:")
+        print(f"\tsudo apt install {' '.join(faltantes)}")
+        return
+
+    # Create application
+    try:
+        app = RecorderTray()
+        Gtk.main()
+    except Exception as e:
+        print(f"ERROR: {e}")
+        print("\nMake sure you have installed:")
+        print("\tsudo apt install libayatana-appindicator python-gobject")
+
+if __name__ == "__main__":
+    main()

@@ -6,7 +6,7 @@ FILENAME="$DIR/ss$(date +'%d%m%y-%H%M%S').png"
 case $1 in
 	0)
 		# Capturar área seleccionada
-		AREA=$(slurp -b "1b032977" -c "39ff14" -w 1)
+		AREA=$(slurp -b "1b032977" -c "39ff14")
 		if [ -z "$AREA" ]; then
 			notify-send -u normal "Screenshot cancelled" "No valid area selected"
 			exit 1
