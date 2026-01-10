@@ -31,7 +31,7 @@ print_value() {
     fi
     
     # Salida JSON para Waybar
-    echo "{\"text\": \"${VALUE}% $ICON\", \"tooltip\": \"$LABEL: ${VALUE}%\"}"
+    echo "{\"text\": \"${VALUE} $ICON\", \"tooltip\": \"$LABEL: ${VALUE}%\"}"
 }
 
 # Verificar si hay monitores DDC disponibles

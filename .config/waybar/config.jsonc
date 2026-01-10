@@ -127,10 +127,16 @@
         "all-outputs": true,
         "format": "{icon}",
         "format-icons": {
-            "10": "0"
+            "urgent": "",
+            "focused": "",
+            "default": ""
         },
-        "persistent_workspaces": {
-            "1": []
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
         }
     },
     "sway/scratchpad": {

@@ -111,24 +111,36 @@ window#waybar {
 #workspaces button {
     all: unset;
     margin: 0px 3px;
-    padding: 0px 5px;
+    padding: 0px 10px 0 5px;
     border-bottom: 2px solid;
 }
 
 #workspaces button:hover {
     background: @dark-magenta;
-    color: @green;
-    border-bottom-color: @green
+    color: @green
 }
 
 #workspaces button.focused {
-    border-bottom-color: @green
+    color: @green
 }
 
 #workspaces button.urgent {
     background-color: @red;
     color: @yellow
 }
+#workspaces button:hover label {
+    color: @green;
+}
+#workspaces button.focused label {
+    color: @green;
+}
+#workspaces button.urgent label {
+    color: @yellow;
+}
+#workspaces button.urgent {
+    background-color: @red;
+}
+
 
 /**************************/
 /**     Tray styling     **/
