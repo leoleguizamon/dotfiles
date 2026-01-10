@@ -247,15 +247,14 @@
 	#Teclas combinadas (Teclas de hardware que son combinaciones de otras) 
 		bindsym $mod+l							exec swaylock
 		bindsym $mod+Shift+s					exec  ~/.config/sway/screenshot.sh 0
-		bindsym $mod+Shift+g					exec  ~/.config/sway/screenRecording.sh 0
-		bindsym $mod+Alt+g						exec  ~/.config/sway/screenRecording.sh 1
+		bindsym $mod+Shift+g					exec  ~/.config/sway/screenRecording
 
 		bindsym $mod+i 							exec $nmwifi					 	#Boton Internet
 		bindsym $mod+o 							exec 								#Boton Opciones
 		bindsym $mod+p 							exec swaymsg output eDP-1 toggle	#Desactivar pantalla integrada
 
 	#Otras
-		bindsym Control+Shift+Escape			exec $sysmonitor				 #Abrir monitor de sistema
+		bindsym Control+Shift+Escape			exec $sysmonitor				 	#Abrir monitor de sistema
 
 		bindsym Pause							exec $editor
 		bindsym Print							exec ~/.config/sway/screenshot.sh 1
@@ -264,17 +263,16 @@
 
 ### Modes
 
-		#set $mode_system  [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
-		#mode "$mode_system" {
-		#	bindsym Shift+e exit
-		#	bindsym Shift+r exec --no-startup-id systemctl reboot, mode "default"
-		#	bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
-
-		#	# return to default mode
-		#	bindsym Return mode "default"
-		#	bindsym Escape mode "default"
-		#}
-		#bindsym Control+Alt+Delete mode "$mode_system"
+		set $mode_system  [Shift+E] 󰗽  [Shift+R] 󰦛  [Shift+S]  
+		mode "$mode_system" {
+			bindsym Shift+e exec ~/.config/waybar/power-menu.sh logout
+			bindsym Shift+r exec ~/.config/waybar/power-menu.sh reboot
+			bindsym Shift+s exec ~/.config/waybar/power-menu.sh shutdown
+			# return to default mode
+			bindsym Return mode "default"
+			bindsym Escape mode "default"
+		}
+		bindsym Control+Alt+Delete mode "$mode_system"
 
 ### Visual
 
