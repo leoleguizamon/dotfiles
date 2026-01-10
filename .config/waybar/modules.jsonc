@@ -1,0 +1,308 @@
+{
+    
+    "custom/DDC10": {
+        "format": "{}",
+        "exec": "~/.config/waybar/ddc-control.sh",
+        "return-type": "json",
+        "on-scroll-up": "echo 'up' > /tmp/waybar-ddc-module-rx",
+        "on-scroll-down": "echo 'down' > /tmp/waybar-ddc-module-rx",
+        "on-click": "echo 'max' > /tmp/waybar-ddc-module-rx",
+        "on-click-right": "echo 'min' > /tmp/waybar-ddc-module-rx",
+        "on-click-middle": "echo 'toggle' > /tmp/waybar-ddc-module-rx"
+    },
+    /**********************Terminados**********************/
+    /* Sound Menu */
+    "group/sound": {
+        "orientation": "inherit",
+        "modules": [
+            "pulseaudio",
+            "pulseaudio/slider"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "sound-drawer"
+        },
+        "on-scroll-up": "exec pamixer -i 1",
+        "on-scroll-down": "exec pamixer -d 1"
+    },
+    "pulseaudio": {
+        "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",
+        "on-click": "exec pamixer -t",
+        "format": "{volume} {icon}",
+        "format-bluetooth": "{volume}% 󰂰",
+        "format-bluetooth-muted": "{icon} 󰂲",
+        "format-muted": " 󰝟 ",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰥰",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰄝",
+            "car": "󰄋",
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾"
+            ]
+        }
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    /* Power Menu */
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power",
+            "custom/logout",
+            "custom/suspend",
+            "custom/reboot",
+            "custom/shutdown"
+        ]
+    },
+    "custom/power": {
+        "format": "󰤁",
+        "tooltip": false
+    },
+    "custom/logout": {
+        "format": "󰍃",
+        "tooltip-format": "Logout",
+        "on-click": "~/.config/waybar/power-menu.sh logout"
+    },
+    "custom/reboot": {
+        "format": "󰜉",
+        "tooltip-format": "Reboot",
+        "on-click": "~/.config/waybar/power-menu.sh reboot"
+    },
+    "custom/suspend": {
+        "format": "󰒲",
+        "tooltip-format": "Suspend",
+        "on-click": "~/.config/waybar/power-menu.sh suspend"
+    },
+    "custom/shutdown": {
+        "format": "",
+        "tooltip-format": "Shutdown",
+        "on-click": "~/.config/waybar/power-menu.sh shutdown"
+    },
+    /* Tray */
+    "tray": {
+        "spacing": 10,
+        "icon-size": 21
+    },
+    /* Sway  modules */
+    "sway/workspaces": {
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+    "sway/scratchpad": {
+        "format": "{icon}",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "tooltip-format": "{app}: {title}",
+        "on-click": "swaymsg 'scratchpad show'",
+        "on-click-right": "swaymsg 'move scratchpad'",
+        "on-click-middle": "swaymsg '[floating] kill'"
+    },
+    "sway/window": {
+        "format": "{}",
+        "max-length": 30,
+        "rewrite": {
+            ".*": ""
+        },
+        "icon": true,
+        "icon-size": 21
+    },
+    "sway/mode": {
+        "format": "<span>{}</span>"
+    },
+    "sway/language": {
+        "format": "{}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+    },
+    /* Info Menu */
+    "group/info": {
+        "orientation": "inherit",
+        "modules": [
+            "user",
+            "sway/language",
+            "cpu",
+            "memory",
+            "temperature",
+            "power-profiles-daemon"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "info-drawer"
+        }
+    },
+    "cpu": {
+        "format": "{usage}% 󰘚",
+        "tooltip": true,
+        "interval": 10
+    },
+    "memory": {
+        "format": "{}% 󰍛",
+        "interval": 10
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": [
+            "󱃃",
+            "󰔏",
+            "󱃂"
+        ]
+    },
+    "user": {
+        "format": "",
+        "interval": 9999,
+        "height": 20,
+        "width": 20,
+        "icon": true,
+        "open-on-click": true
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": " ",
+            "performance": " ",
+            "balanced": " ",
+            "power-saver": " "
+        }
+    },
+    /* Standar modules*/
+    "clock": {
+        "format": "{:%I:%M %p} 󰥔",
+        "format-alt": "{:%d-%m-%Y} 󰃮",
+        "tooltip-format": "<big>{:%d-%m-%Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click-right": "~/.config/waybar/toggle-apps.sh gnome-calendar",
+        "calendar": {
+            "format": {
+                "today": "<span color='#39ff14'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) 󰖩",
+        "format-ethernet": "{ifname} 󰈀",
+        "format-linked": "{ifname} (No IP) 󰈀",
+        "format-disconnected": "Disconnected 󰖪",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": {
+            "numlock": "{icon}",
+            "capslock": "{icon} "
+        },
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    /* Battery modules*/
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% 󰂄",
+        "format-plugged": "{capacity}% 󰚥",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    /* Power Menu */
+    "group/light": {
+        "orientation": "inherit",
+        "modules": [
+            "backlight",
+            "backlight/slider"
+        ],
+        "drawer": {
+            "transition-left-to-right": false,
+            "children-class": "backlight-drawer"
+        },
+        "on-scroll-up": "brightnessctl set +1%",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "backlight": {
+        "format": "{percent} {icon}",
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ]
+    },
+    "backlight/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    "mpris": {
+        // Formato principal
+        "format": "{status_icon}  {title}",
+        // Intervalo de actualización (opcional, en segundos)
+        "interval": 1,
+        // Configuración de tooltip
+        "tooltip": true,
+        "tooltip-format": "{title}\n{artist}\n{album}\n[{position}/{length}]\n\n{player_icon}  {player} - {status}",
+        // Iconos por reproductor
+        "player-icons": {
+            "default": "",
+            "spotify": "",
+            "vlc": "󰕼",
+            "firefox": "󰈹",
+            "chrome": "",
+            "chromium": "󰎆"
+        },
+        // Iconos por estado
+        "status-icons": {
+            "playing": "",
+            "paused": "",
+            "stopped": ""
+        },
+        // Tamaño máximo del texto (opcional)
+        "title-len": 35
+    }
+}

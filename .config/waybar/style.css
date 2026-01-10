@@ -116,7 +116,6 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    background: @dark-magenta;
     color: @green
 }
 

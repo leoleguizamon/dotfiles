@@ -34,15 +34,6 @@ print_value() {
     echo "{\"text\": \"${VALUE} $ICON\", \"tooltip\": \"$LABEL: ${VALUE}%\"}"
 }
 
-# Verificar si hay monitores DDC disponibles
-if ! command -v ddcutil &> /dev/null; then
-    exit 0
-fi
-
-if ! ddcutil detect --brief &> /dev/null; then
-    exit 0
-fi
-
 # Limpiar y crear pipe
 rm -rf "$RECEIVE_PIPE"
 mkfifo "$RECEIVE_PIPE"
