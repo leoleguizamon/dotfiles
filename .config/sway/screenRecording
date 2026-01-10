@@ -116,16 +116,18 @@ class RecorderTray:
                 Gtk.main_quit()
                 return
             
+            print(result.stdout)
+
             # Parse output (format: filename|audio_option)
             output = result.stdout.strip().split("|")
             
             if len(output) >= 1:
-                filename = output[0].strip()
+                filename = output[1].strip()
             else:
                 filename = default_name
             
             if len(output) >= 2:
-                audio_option = output[1].strip()
+                audio_option = output[0].strip()
             else:
                 audio_option = "Disable"
             
