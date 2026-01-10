@@ -191,8 +191,8 @@
 		bindsym $mod+comma			move scratchpad
 
 		# Show the next scratchpad window or hide the focused scratchpad window.
-		bindsym $mod+equal			scratchpad show
-		bindsym $mod+period			scratchpad show
+		bindsym $mod+equal			scratchpad show, floating disable
+		bindsym $mod+period			scratchpad show, floating disable
 
 ### Hardware keys bindings
 

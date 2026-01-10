@@ -13,10 +13,9 @@
     ],
     "modules-center": [
         "sway/window",
-        "sway/scratchpad"
     ],
     "modules-right": [
-        "custom/wf-recorder",
+        "sway/scratchpad",
         "tray",
         "group/sound",
         "custom/DDC10",
@@ -27,14 +26,6 @@
         "group/info",
         "group/power"
     ],
-    "custom/wf-recorder": {
-        "format": "",
-        "signal":8,
-        "exec":"echo 󰻃",
-        "tooltip":true,
-        "tooltip-format": "Stop recording",
-        "on-click": "~/.config/sway/screenRecording.sh 2"
-    },
     "custom/DDC10": {
         "format": "{}",
         "exec": "~/.config/waybar/ddc-control.sh",
@@ -128,7 +119,7 @@
     },
     /* Tray */
     "tray": {
-        "spacing": 5,
+        "spacing": 10,
         "icon-size": 21
     },
     /* Sway  modules */
@@ -158,12 +149,10 @@
         "format": "{}",
         "max-length": 30,
         "rewrite": {
-            ".*[—-] ([^—-]+)$": "$1",
-            "": "leoleguizamon"
+            ".*": ""
         },
         "icon": true,
-        "icon-size": 21,
-        "on-click": "swaymsg 'move scratchpad'"
+        "icon-size": 21
     },
     "sway/mode": {
         "format": "<span>{}</span>"

@@ -27,7 +27,7 @@ class RecorderTray:
         # Create indicator
         self.indicator = AyatanaAppIndicator3.Indicator.new(
             "screen-recorder-tray",
-            "applications-system",
+            "record-desktop",
             AyatanaAppIndicator3.IndicatorCategory.APPLICATION_STATUS,
         )
 
@@ -194,9 +194,6 @@ class RecorderTray:
             # Start recording and store the process object
             self.recorder_process = subprocess.Popen(cmd)
             self.recording = True
-
-            # Change icon to recording
-            self.indicator.set_icon("media-record")
 
             # Notification
             self.send_notification(mensaje, os.path.basename(filename), urgency="low")

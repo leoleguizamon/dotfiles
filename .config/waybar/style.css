@@ -19,13 +19,6 @@ window#waybar {
     background-color: @background
 }
 
-#custom-wf-recorder {
-    color: #FF0000;
-    margin: 0px 3px;
-    padding: 0 10px 0 8px;
-    border-bottom: 2px solid @white
-}
-
 /**************************/
 /** Slider modules styling **/
 /**************************/
@@ -147,8 +140,7 @@ window#waybar {
 }
 
 #tray,
-#scratchpad,
-#window{
+#scratchpad{
     padding: 0 10px;
     margin: 0 3px;
     min-width: 25px;
@@ -230,7 +222,6 @@ window#waybar {
 #custom-logout:hover,
 #tray:hover,
 #scratchpad:hover,
-#window:hover,
 #mode:hover,
 #keyboard-state:hover,
 #cpu:hover,
@@ -244,8 +235,7 @@ window#waybar {
 #power-profiles-daemon:hover,
 #light:hover,
 #mpris:hover,
-#custom-DDC10:hover,
-#custom-wf-recorder:hover
+#custom-DDC10:hover
 {
     background-color: @dark-magenta;
     border-bottom: 2px solid @green
@@ -260,8 +250,4 @@ tooltip {
     color: #cdd6f4;
     border: 1px solid @white
 
-}
-
-tooltip label {
-    padding: 8px;
 }
