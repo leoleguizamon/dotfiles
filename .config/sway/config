@@ -20,16 +20,16 @@
 		set $browser firefox
 
 		# Your preferred file manager
-		set $filemanager nautilus
+		set $filemanager thunar
 
 		# Your preferred text editor
-		set $editor gnome-text-editor
+		set $editor $term -e micro
 
 		# Your preferred calculator
-		set $calculator gnome-calculator
+		set $calculator galculator
 
 		# Your preferred music player
-		set $musicplayer youtube-music
+		# set $musicplayer youtube-music   # no instalado por el desktop
 
 		# Your preferred email client
 		set $emailclient $browser 
@@ -56,10 +56,10 @@
 	exec_always gsettings set org.gnome.desktop.interface cursor-size 24
 
 	exec brightnessctl s 50%
-	for_window [app_id="org.gnome.Loupe"] floating enable, resize set 1000 700
-	for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 15 , resize set 800 350
-	for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 15 , resize set 550 350
-	for_window [app_id="org.gnome.Calendar"] floating enable, move position cursor, move down 40 , move left 5
+	for_window [app_id="imv"] floating enable, resize set 1000 700
+	# for_window [app_id="pavucontrol"] floating enable, move position cursor, move down 15 , resize set 800 350   # pavucontrol no instalado
+	# for_window [app_id="nm-connection-editor"] floating enable, move position cursor, move down 15 , resize set 550 350   # nm-connection-editor no instalado
+	# for_window [app_id="org.gnome.Calendar"] floating enable, move position cursor, move down 40 , move left 5   # gnome-calendar no instalado
 	
 ### Idle configuration
 
@@ -205,7 +205,7 @@
 		bindsym --locked XF86AudioNext 			exec playerctl next
 		bindsym --locked XF86AudioPrev 			exec playerctl previous
 
-		bindsym XF86Tools 						exec $musicplayer		#Open media player
+		# bindsym XF86Tools 						exec $musicplayer		#Open media player  (musicplayer no instalado)
 
 	# Teclas de red y energia
 		#bindsym XF86WLAN						exec $nmwifi			#Wifi button 

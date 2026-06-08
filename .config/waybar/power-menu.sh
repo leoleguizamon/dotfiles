@@ -1,19 +1,19 @@
 #!/bin/bash
 
-# Power menu script with confirmation using zenity
+# Power menu script with confirmation using yad
 # Usage: ./power-menu.sh [shutdown|reboot|suspend|logout]
 
 ACTION="$1"
 
 case "$ACTION" in
     shutdown)
-        zenity --question \
+        yad --question \
             --title="Shutdown System" \
             --text="Are you sure you want to shutdown the system?" \
-            --icon="system-shutdown" \
+            --image="system-shutdown" \
             --width=300 \
-            --ok-label="Shutdown" \
-            --cancel-label="Cancel"
+            --button="Cancel:1" \
+            --button="Shutdown:0"
         
         if [ $? -eq 0 ]; then
             systemctl poweroff
@@ -21,13 +21,13 @@ case "$ACTION" in
         ;;
     
     reboot)
-        zenity --question \
+        yad --question \
             --title="Reboot System" \
             --text="Are you sure you want to reboot the system?" \
-            --icon="system-reboot" \
+            --image="system-reboot" \
             --width=300 \
-            --ok-label="Reboot" \
-            --cancel-label="Cancel"
+            --button="Cancel:1" \
+            --button="Reboot:0"
         
         if [ $? -eq 0 ]; then
             systemctl reboot
@@ -35,13 +35,13 @@ case "$ACTION" in
         ;;
     
     suspend)
-        zenity --question \
+        yad --question \
             --title="Suspend System" \
             --text="Are you sure you want to suspend the system?" \
-            --icon="system-suspend" \
+            --image="system-suspend" \
             --width=300 \
-            --ok-label="Suspend" \
-            --cancel-label="Cancel"
+            --button="Cancel:1" \
+            --button="Suspend:0"
         
         if [ $? -eq 0 ]; then
             swaylock && systemctl suspend
@@ -49,13 +49,13 @@ case "$ACTION" in
         ;;
     
     logout)
-        zenity --question \
+        yad --question \
             --title="Log Out" \
             --text="Are you sure you want to log out?" \
-            --icon="system-log-out" \
+            --image="system-log-out" \
             --width=300 \
-            --ok-label="Log Out" \
-            --cancel-label="Cancel"
+            --button="Cancel:1" \
+            --button="Log Out:0"
         
         if [ $? -eq 0 ]; then
             swaymsg exit

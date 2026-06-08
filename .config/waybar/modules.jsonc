@@ -26,7 +26,7 @@
         "on-scroll-down": "exec pamixer -d 1"
     },
     "pulseaudio": {
-        "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",
+        // "on-click-right": "~/.config/waybar/toggle-apps.sh pavucontrol",   // pavucontrol no instalado
         "on-click": "exec pamixer -t",
         "format": "{volume} {icon}",
         "format-bluetooth": "{volume}% 󰂰",
@@ -199,7 +199,7 @@
         "format": "{:%I:%M %p} 󰥔",
         "format-alt": "{:%d-%m-%Y} 󰃮",
         "tooltip-format": "<big>{:%d-%m-%Y}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click-right": "~/.config/waybar/toggle-apps.sh gnome-calendar",
+        // "on-click-right": "~/.config/waybar/toggle-apps.sh gnome-calendar",   // gnome-calendar no instalado
         "calendar": {
             "format": {
                 "today": "<span color='#39ff14'><b><u>{}</u></b></span>"
@@ -212,8 +212,8 @@
         "format-linked": "{ifname} (No IP) 󰈀",
         "format-disconnected": "Disconnected 󰖪",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
-        "tooltip-format": "{ifname}: {ipaddr}",
-        "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"
+        "tooltip-format": "{ifname}: {ipaddr}"
+        // "on-click-right": "~/.config/waybar/toggle-apps.sh nm-connection-editor"   // nm-connection-editor no instalado
     },
     "keyboard-state": {
         "numlock": true,

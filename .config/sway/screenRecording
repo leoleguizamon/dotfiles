@@ -3,7 +3,7 @@
 """
 Screen Recorder Tray Application
 Compatible with Sway/Wayland
-Requires: wf-recorder, slurp, zenity, libayatana-appindicator
+Requires: wf-recorder, slurp, yad, libayatana-appindicator
 """
 
 import gi
@@ -94,20 +94,20 @@ class RecorderTray:
             # Show forms dialog with filename entry and audio options
             result = subprocess.run(
                 [
-                    "zenity",
-                    "--forms",
+                    "yad",
+                    "--form",
                     "--title=Screen Recorder",
                     "--text=Configure your recording:\n\n(Leave empty to use a default file name)",
-                    "--add-combo=Audio:",
-                    "--add-entry=Filename:",
-                    "--combo-values=Disable|Enable",
+                    "--field=Audio:CB",
+                    "--field=Filename",
                     "--separator=|",
-                    "--icon-name=media-record",
+                    "--image=media-record",
                     "--width=500",
+                    "Disable!Enable",
+                    default_name,
                 ],
                 capture_output=True,
                 text=True,
-                input=f"{default_name}\nDisable"
             )
             
             if result.returncode != 0:
@@ -146,7 +146,7 @@ class RecorderTray:
 
         except FileNotFoundError:
             self.send_notification(
-                "Error", "zenity is not installed", urgency="critical"
+                "Error", "yad is not installed", urgency="critical"
             )
             Gtk.main_quit()
 
@@ -254,7 +254,7 @@ def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     # Check dependencies
-    dependencias = ["wf-recorder", "slurp", "zenity"]
+    dependencias = ["wf-recorder", "slurp", "yad"]
     faltantes = []
 
     for dep in dependencias:
